@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Human Activity Recognition</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
+            min-height: 100vh;
+        }
+        .navbar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(180, 200, 255, 0.92);
+            padding: 1rem 0;
+            box-shadow: 0 2px 12px rgba(180,200,255,0.12);
+        }
+        .navbar a {
+            color: #4b5d67;
+            text-decoration: none;
+            margin: 0 2rem;
+            font-size: 1.2rem;
+            padding: 0.5rem 1.2rem;
+            border-radius: 6px;
+            transition: background 0.3s, color 0.3s, transform 0.2s, box-shadow 0.2s;
+        }
+        .navbar a:hover, .navbar a.active {
+            background: linear-gradient(90deg, #b7ffec 0%, #e0eafc 100%);
+            color: #2d3a4b;
+            box-shadow: 0 2px 8px #b7ffec99;
+            transform: translateY(-2px) scale(1.08);
+        }
+        .container {
+            max-width: 900px;
+            margin: 3rem auto;
+            background: rgba(255,255,255,0.98);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(180,200,255,0.12);
+            padding: 2.5rem 2rem 2rem 2rem;
+        }
+        h1, h2 {
+            color: #4b5d67;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+        .about, .home, .predict {
+            display: none;
+        }
+        .active-section {
+            display: block;
+        }
+        .upload-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .upload-form input[type="file"] {
+            padding: 0.7rem;
+            border-radius: 8px;
+            border: 2px solid #b7ffec;
+            background: #f7fafd;
+            color: #4b5d67;
+            font-size: 1rem;
+            transition: border 0.3s, box-shadow 0.3s;
+        }
+        .upload-form input[type="file"]:hover {
+            border: 2.5px solid #a3c9f9;
+            box-shadow: 0 0 8px #b7ffec88;
+        }
+        .upload-form button {
+            background: linear-gradient(90deg, #b7ffec 0%, #a3c9f9 100%);
+            color: #2d3a4b;
+            border: none;
+            border-radius: 8px;
+            padding: 0.8rem 2.8rem;
+            font-size: 1.15rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 12px #a3c9f955;
+            transition: background 0.3s, color 0.3s, transform 0.2s, box-shadow 0.2s;
+        }
+        .upload-form button:hover {
+            background: linear-gradient(90deg, #e0eafc 0%, #b7ffec 100%);
+            color: #4b5d67;
+            transform: scale(1.07);
+            box-shadow: 0 4px 16px #b7ffec55;
+        }
+        ul {
+            padding-left: 1.2em;
+        }
+        ul li {
+            margin-bottom: 0.5em;
+        }
+        .container p, .container ul {
+            color: #4b5d67;
+            font-size: 1.08rem;
+        }
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+        }
+        .logo {
+            width: 90px;
+            height: 90px;
+            margin-bottom: 1rem;
+        }
+        .tagline {
+            font-size: 1.35rem;
+            color: #5ed6c5;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 1.2rem;
+        }
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .feature-card {
+            background: linear-gradient(120deg, #e0eafc 0%, #b7ffec 100%);
+            color: #4b5d67;
+            border-radius: 14px;
+            box-shadow: 0 2px 12px #b7ffec55;
+            padding: 1.2rem 1.5rem;
+            min-width: 180px;
+            max-width: 220px;
+            text-align: center;
+            font-weight: 500;
+            font-size: 1.08rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .feature-card:hover {
+            transform: scale(1.06) translateY(-4px);
+            box-shadow: 0 6px 24px #a3c9f9aa;
+            background: linear-gradient(120deg, #b7ffec 0%, #e0eafc 100%);
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 1rem;
+            }
+            .navbar a {
+                margin: 0 0.5rem;
+                font-size: 1rem;
+            }
+            .features {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="#home" class="active" onclick="showSection('home', this)">Home</a>
+        <a href="#about" onclick="showSection('about', this)">About</a>
+        <a href="#predict" onclick="showSection('predict', this)">Prediction</a>
+    </nav>
+    <div class="container">
+        <section id="home" class="home active-section">
+            <div class="hero">
+                <!-- Logo: SVG icon -->
+                <div class="logo">
+                    <svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="45" cy="45" r="44" stroke="#5ed6c5" stroke-width="2" fill="#e0eafc"/>
+                        <ellipse cx="45" cy="32" rx="13" ry="13" fill="#5ed6c5"/>
+                        <rect x="37" y="45" width="16" height="28" rx="8" fill="#5ed6c5"/>
+                        <rect x="25" y="60" width="10" height="20" rx="5" fill="#5ed6c5"/>
+                        <rect x="55" y="60" width="10" height="20" rx="5" fill="#5ed6c5"/>
+                    </svg>
+                </div>
+                <div class="tagline">AI-Powered Human Activity Recognition</div>
+            </div>
+            <h1>Welcome to Human Activity Recognition</h1>
+            <p style="text-align:center; font-size:1.15rem; color:#4b5d67;">
+                Experience the future of computer vision!<br>
+                Upload an image and let our advanced AI model detect and classify human activities instantly.<br>
+                Perfect for surveillance, sports analytics, healthcare, and smart environments.
+            </p>
+            <div class="features">
+                <div class="feature-card">⚡ Real-time Activity Detection</div>
+                <div class="feature-card">🤖 Powered by YOLOv8 Deep Learning</div>
+                <div class="feature-card">📈 High Accuracy & Fast Results</div>
+                <div class="feature-card">🔒 Secure & Easy to Use</div>
+            </div>
+        </section>
+        <section id="about" class="about">
+            <h2>About This Project</h2>
+            <p style="font-size:1.1rem; color:#4b5d67;">
+                <b>Human Activity Recognition (HAR)</b> is a computer vision project that leverages the power of deep learning and the YOLOv8 model to detect and classify various human activities from images. <br><br>
+                <b>Key Features:</b>
+                <ul>
+                    <li>State-of-the-art YOLOv8 object detection for accurate activity recognition</li>
+                    <li>Easy-to-use web interface for uploading images and viewing results</li>
+                    <li>Applications in security, healthcare, sports, and smart environments</li>
+                </ul>
+                <b>How it works:</b> Upload an image, and the model will highlight detected humans and label their activities, providing instant visual feedback.
+            </p>
+        </section>
+        <section id="predict" class="predict">
+            <h2>Predict Human Activity</h2>
+            <form class="upload-form" action="/predict" method="post" enctype="multipart/form-data">
+                <input type="file" name="image" accept="image/*" required>
+                <button type="submit">Predict</button>
+            </form>
+        </section>
+    </div>
+    <script>
+        function showSection(sectionId, el) {
+            document.querySelectorAll('.container section').forEach(sec => sec.classList.remove('active-section'));
+            document.getElementById(sectionId).classList.add('active-section');
+            document.querySelectorAll('.navbar a').forEach(a => a.classList.remove('active'));
+            el.classList.add('active');
+        }
+        // On page load, show home
+        window.onload = function() {
+            showSection('home', document.querySelector('.navbar a[href="#home"]'));
+        };
+    </script>
+</body>
+</html>

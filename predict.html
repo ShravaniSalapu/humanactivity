@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Predict Human Activity</h2>
+<form class="upload-form" action="/predict" method="post" enctype="multipart/form-data">
+    <input type="file" name="image" accept="image/*" required>
+    <button type="submit">Predict</button>
+</form>
+{% endblock %} 
