@@ -1,4 +1,4 @@
-Flask   
+Flask
 ultralytics
 Pillow
 torch
